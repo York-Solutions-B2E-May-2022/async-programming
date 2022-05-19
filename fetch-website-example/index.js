@@ -1,14 +1,17 @@
-function fetchData(resolve, reject) {
-    fetch('https://www.reddit.com/r/programminghumor/.json')
+function fetchData(resolve, reject, _fetch = fetch) {
+    _fetch('https://www.reddit.com/r/programminghumor/.json')
         .then((response) => {
             if (!response.ok) {
-                return reject('response not ok')
+                reject(new Error('response not ok'))
+                return
             }
             response.json()
                 .then(resolve)
         })
         .catch(reject)
 }
+
+test_fetchData_not_ok()
 
 function generatePostList(list) {
     let str = ''
@@ -18,6 +21,8 @@ function generatePostList(list) {
 
     return str
 }
+
+
 
 function renderPostList() {
     fetchData(
@@ -31,4 +36,4 @@ function renderPostList() {
     )
 }
 
-renderPostList()
+// renderPostList()
